@@ -9,7 +9,7 @@ import { googleLogout } from '@react-oauth/google';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { userSignUpAction, userLoginAction, userDetailsAction } from '../../redux/action/user.action'
-import { getTaskDetails } from '../../redux/action/task.action'
+import { getTaskDetails,deleteTaskDetails } from '../../redux/action/task.action'
 
 
 
@@ -37,7 +37,7 @@ function Home() {
     }
     const deleteHandlder=(details)=>{
         setSelectedTask(details)
-        
+        dispatch(deleteTaskDetails(selectedTask?._id))
     }
     const logOut = () => {
         googleLogout();
@@ -138,6 +138,7 @@ function Home() {
                                                             <div className=' w-full h-[50px] flex justify-end items-center p-[5px]'>
                                                                 <div className='flex gap-3'>
                                                                     <button className='w-[50px] h-[25px] bg-red-400 text-white text-[12px] rounded-md'
+                                                                    onClick={()=>dispatch(deleteTaskDetails(task?._id))}
                                                                     >
                                                                         Delete
                                                                     </button>

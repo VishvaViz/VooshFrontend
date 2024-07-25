@@ -1,7 +1,7 @@
 import React from 'react'
 
 function TaskDetails({ trigger, setTrigger, selectedTask }) {
-    // console.log('selected',selectedTask)
+    console.log('selected',selectedTask)
     return trigger ? (
         <div>
             <div className='w-full h-[100vh]  fixed top-0 left-0 bg-[#00000080] flex justify-center items-center'>
@@ -10,15 +10,16 @@ function TaskDetails({ trigger, setTrigger, selectedTask }) {
                         <h1>Task Details</h1>
 
                         <div>
-                            <span>Tittle:</span>Task tittle{selectedTask}
+                            <span>Tittle:</span>{selectedTask?.title}
                         </div>
                         <div>
                             <span>
                                 Decription
                             </span>
+                            {selectedTask?.description}
                         </div>
                         <div>
-                            CreatedDate
+                            CreatedDate : {selectedTask?.createdAt}
                         </div>
                     </div>
                     <div className='flex justify-end h-[60px] items-center'>

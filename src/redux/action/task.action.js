@@ -75,6 +75,7 @@ export const getTaskDetailsFailure = (error) => ({
 })
 
 export const editTaskDetails = (details) => {
+    
     return async (dispatch) => {
         try {
             const resp = await Axios.put(`${baseUrl}/api/task/edittask`,{details},{
@@ -103,6 +104,40 @@ export const editTaskDetailsFailure = (error) => ({
     type:TASKEDITEDFAILURE,
     payload:{error}
 })
+
+
+export const deleteTaskDetails = (taskId) => {
+    console.log('taskId',taskId)
+    return async (dispatch) => {
+        try {
+            const resp = await Axios.delete(`${baseUrl}/api/task/deletetask/${taskId}`,{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            console.log('action',resp.data)
+            if (resp.data?.success) {
+                dispatch(deleteDetailsSuccess(resp.data))
+            }
+            else {
+                dispatch(deleteDetailsFailure(resp.data))
+            }
+        } catch (error) {
+            dispatch(deleteDetailsFailure(error))
+        }
+    };
+};
+
+export const deleteDetailsSuccess = (data) => ({
+    type:TASKDELETEDSUCCESS,
+    payload:{data}
+})
+
+export const deleteDetailsFailure = (error) => ({
+    type:TASKDELETEDFAILURE,
+    payload:{error}
+})
+
 
 
 

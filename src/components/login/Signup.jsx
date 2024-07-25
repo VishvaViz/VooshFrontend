@@ -139,7 +139,7 @@ function Signup() {
                 </div>
             </div>
             <div className='flex flex-col justify-center items-center gap-2 mt-[20px]'>
-                <div className='w-[32%] flex justify-start ml-2'>
+                <div className='w-[450px] flex justify-start ml-2'>
                     <h1 className='text-[#2676c2] text-center font-semibold text-[24px]'>SignUp</h1>
                 </div>
                 <div className='h-[490px] w-[450px] border-2 shadow border-blue-600 rounded-md flex justify-center items-center'>
