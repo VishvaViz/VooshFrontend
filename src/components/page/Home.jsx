@@ -7,9 +7,7 @@ import AddTask from '../utils/AddTask';
 import Cookies from 'js-cookie';
 import { googleLogout } from '@react-oauth/google';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { userSignUpAction, userLoginAction, userDetailsAction } from '../../redux/action/user.action'
-import { getTaskDetails,deleteTaskDetails } from '../../redux/action/task.action'
+import { getTaskDetails, deleteTaskDetails } from '../../redux/action/task.action'
 
 
 
@@ -23,6 +21,8 @@ function Home() {
     const [addTask, setAddTask] = useState(false)
     const [selectedTask, setSelectedTask] = useState(null)
     const profile = JSON.parse(localStorage.getItem('profile'))
+    const [searchQuery, setSearchQuery] = useState('');
+    const [sortOption, setSortOption] = useState('1');
     const userDetails = useSelector(({ user }) => user);
 
     const viewDetailsHanlder = (details) => {
@@ -35,10 +35,7 @@ function Home() {
         setEditModel(!editModel)
 
     }
-    const deleteHandlder=(details)=>{
-        setSelectedTask(details)
-        dispatch(deleteTaskDetails(selectedTask?._id))
-    }
+
     const logOut = () => {
         googleLogout();
         Cookies.remove('profile');
@@ -53,6 +50,22 @@ function Home() {
 
     const taskDetails = useSelector(({ task }) => task?.task?.task)
     console.log('taskDetails', taskDetails)
+
+    const filteredTasks = taskDetails?.filter(task =>
+        task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        task.description.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const sortedTasks = filteredTasks?.sort((a, b) => {
+        if (sortOption === '1') {
+            // Sort by recent
+            return new Date(b.createdAt) - new Date(a.createdAt);
+        } else if (sortOption === '2') {
+            // Sort by name
+            return a.title.localeCompare(b.title);
+        }
+        return 0;
+    });
 
     // console.log('userdetails', userDetails)
 
@@ -78,7 +91,7 @@ function Home() {
                             {
                                 profile?.picture ? <img className='w-[50px] h-[50px] rounded-[50%]' src={profile?.picture} alt='' />
                                     :
-                                    <img className='w-[50px] h-[50px] rounded-[50%]' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSheI9UkWllIpSNbs2UdE18KLLswgDON9qzXg&s' alt='' />
+                                <img className='w-[50px] h-[50px] rounded-[50%]' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSheI9UkWllIpSNbs2UdE18KLLswgDON9qzXg&s' alt='' />
                             }
                         </div>
                     </div>
@@ -97,13 +110,20 @@ function Home() {
                             <label className='text-[15px] font-[500]'>
                                 Search:
                             </label>
-                            <input className='outline-none border h-[30px] w-[280px] placeholder: pl-[10px] placeholder:text-[14px] rounded-md ' placeholder='Search...' />
+                            <input className='outline-none border h-[30px] w-[280px] placeholder: pl-[10px] placeholder:text-[14px] rounded-md ' placeholder='Search...'
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
                         </div>
                         <div>
                             <label className='text-[14px] font-[500]'>
                                 Sort By:
                             </label>
-                            <select className='text-[14px]'>
+                            <select
+                                className='text-[14px]'
+                                value={sortOption}
+                                onChange={(e) => setSortOption(e.target.value)}
+                            >
                                 <option value="1">Recent</option>
                                 <option value="2">Name</option>
                             </select>
@@ -117,12 +137,12 @@ function Home() {
                             </div>
                             <div className='w-full flex flex-col items-center gap-2  overflow-y-scroll Scroll '>
                                 {
-                                    taskDetails?.length > 0 ?
+                                    sortedTasks?.length > 0 ?
                                         <>
                                             {
-                                                taskDetails?.map((task,index) => {
+                                                sortedTasks?.map((task, index) => {
                                                     return (
-                                                        <div className='w-[90%] h-[145px] bg-blue-100 rounded-md  flex flex-col justify-between'>
+                                                        <div key={index} className='w-[90%] h-[145px] bg-blue-100 rounded-md  flex flex-col justify-between'>
                                                             <div className='p-[10px]'>
                                                                 <span className='text-[16px] font-bold'>
                                                                     {task?.title}
@@ -138,7 +158,7 @@ function Home() {
                                                             <div className=' w-full h-[50px] flex justify-end items-center p-[5px]'>
                                                                 <div className='flex gap-3'>
                                                                     <button className='w-[50px] h-[25px] bg-red-400 text-white text-[12px] rounded-md'
-                                                                    onClick={()=>dispatch(deleteTaskDetails(task?._id))}
+                                                                        onClick={() => dispatch(deleteTaskDetails(task?._id))}
                                                                     >
                                                                         Delete
                                                                     </button>
@@ -161,7 +181,11 @@ function Home() {
                                             }
                                         </>
                                         :
-                                        null
+                                        <div className='w-full h-[300px] flex justify-center items-center '>
+                                            <span>
+                                                No Task Found
+                                            </span>
+                                        </div>
                                 }
                             </div>
                         </div>
