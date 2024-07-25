@@ -34,7 +34,12 @@ function Login() {
         e.preventDefault();
         try {
             // Dispatch user login action here
-            await dispatch(userLoginAction(details));
+            if(details?.email && details?.password){
+                await dispatch(userLoginAction(details));
+            }
+            else{
+                alert('please enter the valid value')
+            }
 
         } catch (error) {
             console.log('Login Error:', error);
@@ -66,7 +71,7 @@ function Login() {
             }
             dispatch(userLoginAction(details));
         }
-    }, [dispatch,profile])
+    }, [dispatch, profile])
 
     if (userDetails?.success === true) {
         Cookies.set('token', userDetails?.token)
@@ -97,7 +102,7 @@ function Login() {
                     <h1 className='text-[#2676c2] text-center font-semibold text-[24px]'>Login</h1>
                 </div>
                 <div className='h-[300px] w-[450px] border-2 shadow border-blue-600 rounded-md flex justify-center items-center'>
-                    <form className='w-[90%] h-[90%] flex flex-col gap-4 mt-[20px]' onSubmit={handleFormSubmit}>
+                    <div className='w-[90%] h-[90%] flex flex-col gap-4 mt-[20px]'>
                         <input
                             name='email'
                             type='email'
@@ -117,7 +122,9 @@ function Login() {
                         <span className='text-red-500 text-[12px]'>
                             {userDetails?.success === false ? userDetails?.message : null}
                         </span>
-                        <button type='submit' className='w-full h-[40px] bg-blue-600 text-white font-[400]'>
+                        <button className='w-full h-[40px] bg-blue-600 text-white font-[400]'
+                            onClick={handleFormSubmit}
+                        >
                             Login
                         </button>
                         <div className='text-center'>
@@ -132,7 +139,7 @@ function Login() {
                                 Login with <span className='font-bold'>Google</span>
                             </button>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
