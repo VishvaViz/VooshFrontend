@@ -35,6 +35,10 @@ function Home() {
         setEditModel(!editModel)
 
     }
+    const deleteHandlder=(details)=>{
+        setSelectedTask(details)
+        
+    }
     const logOut = () => {
         googleLogout();
         Cookies.remove('profile');
@@ -133,16 +137,17 @@ function Home() {
                                                             </div>
                                                             <div className=' w-full h-[50px] flex justify-end items-center p-[5px]'>
                                                                 <div className='flex gap-3'>
-                                                                    <button className='w-[50px] h-[25px] bg-red-400 text-white text-[12px] rounded-md'>
+                                                                    <button className='w-[50px] h-[25px] bg-red-400 text-white text-[12px] rounded-md'
+                                                                    >
                                                                         Delete
                                                                     </button>
                                                                     <button className='w-[50px] h-[25px] bg-blue-400 text-white text-[12px] rounded-md'
-                                                                        onClick={() => editDetailsHandler(index)}
+                                                                        onClick={() => editDetailsHandler(task)}
                                                                     >
                                                                         Edit
                                                                     </button>
                                                                     <button className='w-[80px] h-[25px] bg-blue-600 text-white rounded-md text-[12px]'
-                                                                        onClick={() => viewDetailsHanlder(index)}
+                                                                        onClick={() => viewDetailsHanlder(task)}
                                                                     >
                                                                         View Details
                                                                     </button>

@@ -32,6 +32,32 @@ const taskReducer = (state = initialState, action) => {
                 message: action.payload.error.message,
                 success: action.payload.error.success,
             }
+        case 'TASKEDITEDSUCCESS':
+            return {
+                ...state,
+                task: action.payload.data,
+                message: action.payload.data.message,
+                success: action.payload.data.success,
+            }
+        case 'TASKEDITEDFAILURE':
+            return {
+                ...state,
+                message: action.payload.error.message,
+                success: action.payload.error.success,
+            }
+        case 'TASKDELETEDSUCCESS':
+            return {
+                ...state,
+                task: action.payload.data,
+                message: action.payload.data.message,
+                success: action.payload.data.success,
+            }
+        case 'TASKDELETEDFAILURE':
+            return {
+                ...state,
+                message: action.payload.error.message,
+                success: action.payload.error.success,
+            }
         default:
             return state
 

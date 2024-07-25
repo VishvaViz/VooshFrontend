@@ -74,6 +74,36 @@ export const getTaskDetailsFailure = (error) => ({
     payload:{error}
 })
 
+export const editTaskDetails = (details) => {
+    return async (dispatch) => {
+        try {
+            const resp = await Axios.put(`${baseUrl}/api/task/edittask`,{details},{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            if (resp.data?.success) {
+                dispatch(editTaskDetailsSuccess(resp.data))
+            }
+            else {
+                dispatch(editTaskDetailsFailure(resp.data))
+            }
+        } catch (error) {
+            dispatch(editTaskDetailsFailure(error))
+        }
+    };
+};
+
+export const editTaskDetailsSuccess = (data) => ({
+    type:TASKEDITEDSUCCESS,
+    payload:{data}
+})
+
+export const editTaskDetailsFailure = (error) => ({
+    type:TASKEDITEDFAILURE,
+    payload:{error}
+})
+
 
 
 
