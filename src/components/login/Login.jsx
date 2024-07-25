@@ -35,7 +35,7 @@ function Login() {
         try {
             // Dispatch user login action here
             await dispatch(userLoginAction(details));
-            
+
         } catch (error) {
             console.log('Login Error:', error);
         }
@@ -54,23 +54,24 @@ function Login() {
                     setProfile(resp.data);
                     Cookies.set('profile', JSON.stringify(resp.data));
                     localStorage.setItem('profile', JSON.stringify(resp.data));
-                    navigate('/home');
                 })
                 .catch((err) => console.log(err));
         }
     }, [user, navigate]);
-    if (user?.access_token) {
-        // Cookies.set('token',user?.access_token)
-        // navigate('/home');
-    }
-    if(userDetails?.success===true){
-        Cookies.set('token',userDetails?.token)
+    useEffect(() => {
+        if (user?.access_token) {
+            const details = {
+                email: profile?.email,
+                password: profile?.name
+            }
+            dispatch(userLoginAction(details));
+        }
+    }, [dispatch,profile])
+
+    if (userDetails?.success === true) {
+        Cookies.set('token', userDetails?.token)
         navigate('/home');
     }
-    
-    console.log('userDetails',userDetails)
-
-
     return (
         <div className='h-screen w-full'>
             <div className='bg-blue-600 h-[8%] flex justify-between items-center'>
@@ -114,7 +115,7 @@ function Login() {
                             placeholder='Password'
                         />
                         <span className='text-red-500 text-[12px]'>
-                            {userDetails?.success===false?userDetails?.message:null}
+                            {userDetails?.success === false ? userDetails?.message : null}
                         </span>
                         <button type='submit' className='w-full h-[40px] bg-blue-600 text-white font-[400]'>
                             Login
@@ -126,10 +127,7 @@ function Login() {
                             <button
                                 type='button'
                                 className='text-white bg-blue-600 w-[180px] h-[40px] rounded-md'
-                                onClick={() => {
-                                    login();
-                                    Cookies.set('loginmethod', 'logingoogle');
-                                }}
+                                onClick={login}
                             >
                                 Login with <span className='font-bold'>Google</span>
                             </button>

@@ -1,23 +1,36 @@
-const initialState={
-    task:{},
-    success:null,
-    message:''
+const initialState = {
+    task: {},
+    success: null,
+    message: ''
 }
 
-const taskReducer=(state=initialState, action)=>{
-    switch(action.type){
+const taskReducer = (state = initialState, action) => {
+    switch (action.type) {
         case 'TASKADDEDSUCCESS':
             return {
                 ...state,
-                task: action.payload,
-                message: action.payload.message,
-                success: action.payload.success,
+                task: action.payload.data,
+                message: action.payload.data.message,
+                success: action.payload.data.success,
             }
         case 'TASKADDEDFAILURE':
             return {
                 ...state,
-                message: action.payload.message,
-                success: action.payload.success,
+                message: action.payload.error.message,
+                success: action.payload.error.success,
+            }
+        case 'TASKDETAILSSUCCESS':
+            return {
+                ...state,
+                task: action.payload.data,
+                message: action.payload.data.message,
+                success: action.payload.data.success,
+            }
+        case 'TASKDETAILSFAILURE':
+            return {
+                ...state,
+                message: action.payload.error.message,
+                success: action.payload.error.success,
             }
         default:
             return state
@@ -25,4 +38,4 @@ const taskReducer=(state=initialState, action)=>{
     }
 }
 
-export  {taskReducer}
+export { taskReducer }
