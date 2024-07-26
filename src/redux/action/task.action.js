@@ -7,7 +7,9 @@ import {
     TASKDELETEDSUCCESS,
     TASKDELETEDFAILURE,
     TASKDETAILSSUCCESS,
-    TASKDETAILSFAILURE
+    TASKDETAILSFAILURE,
+    TASKSTATUSSUCCESS,
+    TASKSTATUSFAILURE
 } from './actiontype'
 import Cookies from 'js-cookie'
 const baseUrl = process.env.REACT_APP_API_URL;
@@ -34,20 +36,20 @@ export const addTaskAction = (details) => {
 };
 
 export const addTaskSuccess = (data) => ({
-    type:TASKADDEDSUCCESS,
-    payload:{data}
+    type: TASKADDEDSUCCESS,
+    payload: { data }
 })
 
 export const addTaskFailure = (error) => ({
-    type:TASKADDEDFAILURE,
-    payload:{error}
+    type: TASKADDEDFAILURE,
+    payload: { error }
 })
 
 
 export const getTaskDetails = (details) => {
     return async (dispatch) => {
         try {
-            const resp = await Axios.get(`${baseUrl}/api/task/gettask`,{
+            const resp = await Axios.get(`${baseUrl}/api/task/gettask`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -65,20 +67,20 @@ export const getTaskDetails = (details) => {
 };
 
 export const getTaskDetailsSuccess = (data) => ({
-    type:TASKDETAILSSUCCESS,
-    payload:{data}
+    type: TASKDETAILSSUCCESS,
+    payload: { data }
 })
 
 export const getTaskDetailsFailure = (error) => ({
-    type:TASKDETAILSFAILURE,
-    payload:{error}
+    type: TASKDETAILSFAILURE,
+    payload: { error }
 })
 
 export const editTaskDetails = (details) => {
-    
+
     return async (dispatch) => {
         try {
-            const resp = await Axios.put(`${baseUrl}/api/task/edittask`,{details},{
+            const resp = await Axios.put(`${baseUrl}/api/task/edittask`, { details }, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -96,26 +98,26 @@ export const editTaskDetails = (details) => {
 };
 
 export const editTaskDetailsSuccess = (data) => ({
-    type:TASKEDITEDSUCCESS,
-    payload:{data}
+    type: TASKEDITEDSUCCESS,
+    payload: { data }
 })
 
 export const editTaskDetailsFailure = (error) => ({
-    type:TASKEDITEDFAILURE,
-    payload:{error}
+    type: TASKEDITEDFAILURE,
+    payload: { error }
 })
 
 
 export const deleteTaskDetails = (taskId) => {
-    console.log('taskId',taskId)
+    console.log('taskId', taskId)
     return async (dispatch) => {
         try {
-            const resp = await Axios.delete(`${baseUrl}/api/task/deletetask/${taskId}`,{
+            const resp = await Axios.delete(`${baseUrl}/api/task/deletetask/${taskId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             })
-            console.log('action',resp.data)
+            console.log('action', resp.data)
             if (resp.data?.success) {
                 dispatch(deleteDetailsSuccess(resp.data))
             }
@@ -129,14 +131,45 @@ export const deleteTaskDetails = (taskId) => {
 };
 
 export const deleteDetailsSuccess = (data) => ({
-    type:TASKDELETEDSUCCESS,
-    payload:{data}
+    type: TASKDELETEDSUCCESS,
+    payload: { data }
 })
 
 export const deleteDetailsFailure = (error) => ({
-    type:TASKDELETEDFAILURE,
-    payload:{error}
+    type: TASKDELETEDFAILURE,
+    payload: { error }
 })
+
+export const updateTaskStatus = (taskId) => {
+    console.log('taskId', taskId)
+    return async (dispatch) => {
+        try {
+            const resp = await Axios.patch(`${baseUrl}/api/task/updatestatus/${taskId?.taskId}`, {status:taskId?.status} , {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            console.log('action', resp.data)
+            if (resp.data?.success) {
+                dispatch({
+                    type: TASKSTATUSSUCCESS,
+                    payload: { data: resp.data }
+                })
+            }
+            else {
+                dispatch({
+                    type: TASKSTATUSFAILURE,
+                    payload: { error: resp.data }
+                })
+            }
+        } catch (error) {
+            dispatch({
+                type: TASKSTATUSFAILURE,
+                payload: { error: error }
+            })
+        }
+    };
+};
 
 
 

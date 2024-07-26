@@ -58,6 +58,20 @@ const taskReducer = (state = initialState, action) => {
                 message: action.payload.error.message,
                 success: action.payload.error.success,
             }
+        case 'TASKSTATUSSUCCESS':
+            return {
+                ...state,
+                task: action.payload.data,
+                message: action.payload.data.message,
+                success: action.payload.data.success,
+            }
+        case 'TASKSTATUSFAILURE':
+            return {
+                ...state,
+                message: action.payload.error.message,
+                success: action.payload.error.success,
+            }
+
         default:
             return state
 
