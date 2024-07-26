@@ -13,7 +13,7 @@ import {
 } from './actiontype'
 import Cookies from 'js-cookie'
 const baseUrl = process.env.REACT_APP_API_URL;
-const token = Cookies.get('token')
+const token = localStorage.getItem('token')
 
 export const addTaskAction = (details) => {
     return async (dispatch) => {

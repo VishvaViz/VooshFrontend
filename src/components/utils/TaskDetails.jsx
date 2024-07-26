@@ -5,21 +5,24 @@ function TaskDetails({ trigger, setTrigger, selectedTask }) {
     return trigger ? (
         <div>
             <div className='w-full h-[100vh]  fixed top-0 left-0 bg-[#00000080] flex justify-center items-center'>
-                <div className='w-[500px] h-[85vh] bg-white rounded-md p-[20px] flex flex-col  justify-between '>
-                    <div>
-                        <h1>Task Details</h1>
+                <div className='w-[500px] h-[85vh] bg-white rounded-md p-[20px] flex flex-col justify-between '>
+                    <div className='flex flex-col gap-5'>
+                        <h1 className='text-[18px] font-bold'>Task Details</h1>
 
                         <div>
-                            <span>Tittle:</span>{selectedTask?.title}
+                            <span className='text-[16px] font-bold'>Tittle:</span><span>{selectedTask?.title}</span>
                         </div>
                         <div>
-                            <span>
+                            <span className='text-[16px] font-bold'>
                                 Decription
                             </span>
-                            {selectedTask?.description}
+                            <span>
+                                {selectedTask?.description}
+                            </span>
+                            
                         </div>
                         <div>
-                            CreatedDate : {selectedTask?.createdAt}
+                            <span className='text-[16px] font-bold'>CreatedDate :</span> {selectedTask?.createdAt}
                         </div>
                     </div>
                     <div className='flex justify-end h-[60px] items-center'>

@@ -132,11 +132,12 @@ function Signup() {
             dispatch(userSignUpAction(details));
         }
     }, [dispatch, profile]);
-
-    if (userDetails?.success) {
-        Cookies.set('token', userDetails?.token);
-        navigate('/home');
-    }
+    useEffect(() => {
+        if (userDetails?.success) {
+            localStorage.setItem('token', userDetails?.token)
+            navigate('/home');
+        }
+    }, [userDetails,navigate])
     console.log('userDetails', userDetails)
     return (
         <div className='h-screen w-full'>

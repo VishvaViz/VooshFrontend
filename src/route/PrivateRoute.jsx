@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
 const PrivateRoute = ({ element, ...rest }) => {
-    const token = Cookies.get('token');
+    const token = localStorage.getItem('token');
     return (
         token ? <Outlet /> : <Navigate to='/' />
     )
