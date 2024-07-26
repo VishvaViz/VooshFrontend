@@ -77,6 +77,7 @@ function Login() {
         Cookies.set('token', userDetails?.token)
         navigate('/home');
     }
+    console.log('userDetails',userDetails)
     return (
         <div className='h-screen w-full'>
             <div className='bg-blue-600 h-[8%] flex justify-between items-center'>

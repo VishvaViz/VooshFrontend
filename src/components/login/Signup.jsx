@@ -49,6 +49,21 @@ function Signup() {
         }
     }, [user]);
 
+    const validateEmail = (email) => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    };
+
+    const validateName = (name) => {
+        const regex = /^[a-zA-Z]{1,50}$/;
+        return regex.test(name);
+    };
+
+    const validatePassword = (password) => {
+        const regex = /^[a-zA-Z0-9]{6,50}$/;
+        return regex.test(password);
+    };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setDetails((prevDetails) => ({
@@ -64,23 +79,23 @@ function Signup() {
         const newErrors = {};
         let valid = true;
 
-        if (!firstName) {
-            newErrors.firstName = 'First name is required';
+        if (!validateName(firstName)) {
+            newErrors.firstName = 'Invalid first name. It should be 2-50 alphabetic characters.';
             valid = false;
         }
 
-        if (!lastName) {
-            newErrors.lastName = 'Last name is required';
+        if (!validateName(lastName)) {
+            newErrors.lastName = 'Invalid last name. It should be 2-50 alphabetic characters.';
             valid = false;
         }
 
-        if (!email) {
-            newErrors.email = 'Email is required';
+        if (!validateEmail(email)) {
+            newErrors.email = 'Invalid email format.';
             valid = false;
         }
 
-        if (!password) {
-            newErrors.password = 'Password is required';
+        if (!validatePassword(password)) {
+            newErrors.password = 'Invalid password. It should be 6-50 alphanumeric characters.';
             valid = false;
         }
 
@@ -92,7 +107,7 @@ function Signup() {
         setErrors(newErrors);
 
         if (valid) {
-            dispatch(userSignUpAction(details))
+            dispatch(userSignUpAction(details));
         }
     };
 
@@ -105,6 +120,7 @@ function Signup() {
             }
         }
     };
+
     useEffect(() => {
         if (user?.access_token) {
             const details = {
@@ -112,15 +128,16 @@ function Signup() {
                 lastName: profile?.given_name,
                 email: profile?.email,
                 password: profile?.name,
-            }
-            dispatch(userSignUpAction(details))
+            };
+            dispatch(userSignUpAction(details));
         }
-    }, [dispatch, profile])
+    }, [dispatch, profile]);
+
     if (userDetails?.success) {
-        Cookies.set('token', userDetails?.token)
+        Cookies.set('token', userDetails?.token);
         navigate('/home');
     }
-
+    console.log('userDetails', userDetails)
     return (
         <div className='h-screen w-full'>
             <div className='bg-blue-600 h-[8%] flex justify-between items-center'>
