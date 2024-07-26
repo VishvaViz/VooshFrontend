@@ -34,10 +34,10 @@ function Login() {
         e.preventDefault();
         try {
             // Dispatch user login action here
-            if(details?.email && details?.password){
+            if (details?.email && details?.password) {
                 await dispatch(userLoginAction(details));
             }
-            else{
+            else {
                 alert('please enter the valid value')
             }
 
@@ -72,12 +72,13 @@ function Login() {
             dispatch(userLoginAction(details));
         }
     }, [dispatch, profile])
-
-    if (userDetails?.success === true) {
-        Cookies.set('token', userDetails?.token)
-        navigate('/home');
-    }
-    console.log('userDetails',userDetails)
+    useEffect(() => {
+        if (userDetails?.success) {
+            localStorage.setItem('token', userDetails?.token)
+            navigate('/home');
+        }
+    }, [userDetails,navigate])
+    console.log('userDetails', userDetails)
     return (
         <div className='h-screen w-full'>
             <div className='bg-blue-600 h-[8%] flex justify-between items-center'>

@@ -14,11 +14,15 @@ function Routecomp() {
         <div>
             <BrowserRouter>
                 <Suspense
-                    fallback={<div>Loading...</div>}
+                    fallback={<div className="w-full h-screen flex justify-center items-center">
+                        <span className=" animate-bounce text-[20px] font-bold">
+                            Loading...
+                        </span>
+                    </div>}
                 >
 
                     <Routes>
-                        <Route element={<PrivateRoute/>} >
+                        <Route element={<PrivateRoute />} >
                             <Route path="/home" element={<Home />} />
                         </Route>
                         <Route path="/" element={<Signup />} />

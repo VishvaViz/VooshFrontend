@@ -59,13 +59,16 @@ const Home = () => {
         }
     };
 
-    const logOut = () => {
-        googleLogout();
+    
+    const logOut = async() => {
         Cookies.remove('profile');
-        Cookies.remove('token');
-        Cookies.remove('loginmethod');
-        localStorage.clear();
-        navigate('/');
+        await localStorage.clear();
+        localStorage.removeItem('token')
+        googleLogout();
+        window.location.reload(); 
+        setTimeout(()=>{
+            navigate('/');
+        },1000)
     };
 
     return (

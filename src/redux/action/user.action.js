@@ -44,7 +44,7 @@ export const userLoginAction = (details) => {
 }
 
 export const userDetailsAction = () => {
-    const token = Cookies.get(token)
+    const token = localStorage.getItem('token')
 
     return async (dispatch) => {
         try {
