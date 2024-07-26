@@ -87,9 +87,9 @@ const Home = () => {
                             </button>
                             <div>
                                 {
-                                    profile?.picture ? <img className='w-[50px] h-[50px] rounded-[50%]' src={profile?.picture} alt='' />
+                                    profile?.picture ? <img className='w-[45px] h-[45px] rounded-[50%]' src={profile?.picture} alt='' />
                                         :
-                                        <img className='w-[50px] h-[50px] rounded-[50%]' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSheI9UkWllIpSNbs2UdE18KLLswgDON9qzXg&s' alt='' />
+                                        <img className='w-[45px] h-[45px] rounded-[50%]' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSheI9UkWllIpSNbs2UdE18KLLswgDON9qzXg&s' alt='' />
                                 }
                             </div>
                         </div>

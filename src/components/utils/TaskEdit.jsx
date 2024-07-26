@@ -15,7 +15,6 @@ function TaskEdit({ trigger, setTrigger, selectedTask }) {
                 title: selectedTask?.title,
                 description: selectedTask?.description,
                 taskId:selectedTask?._id,
-                status:'inprogress'
             });
         }
     }, [selectedTask]);
